@@ -43,19 +43,19 @@ export const ConfirmarContra = () => {
     cadenatoken1.split("&");
     settoken(cadenatoken1.split("&")[0]);
     setEmail(window.location.href.split("email=")[1]);
+    
     console.log("token", token);
     console.log("email", email);
-    console.log("password", password);
-    console.log("passwordConfirm", password_confirmation);
   }, []);
 
   const confirmPassword = async (e) => {
     e.preventDefault();
+    console.log("token de la funcion", token);
+    console.log("email de la funcion", email);
     try {
       await axios.post(
         BACKEND + "/api/v1/reset-password",
-        { token, email, password, password_confirmation },
-        { headers: { accept: "application/json" } }
+        { token, email, password, password_confirmation }
       );
 
       bienAlert();

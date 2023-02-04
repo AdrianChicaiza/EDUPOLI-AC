@@ -136,6 +136,32 @@ export const CardCarrera = ({ semestre }) => {
     }
     setConsultando(false);
   };
+  const actualizarSemestreCampos = async () => {
+    setConsultando(true);
+    try {
+      await axios.post(
+        BACKEND + "/api/v1/semestres/admin/update/" + semestreSelected.current,
+        { nombre, descripcion},
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `${tokenUser}`,
+          },
+        }
+      );
+
+      console.log("Se actualizo el semestre");
+      setEstadoModal(false);
+      setErrorNombre("");
+      setErrorDescripcion("");
+      actualizarSemestreAlert();
+      window.location = window.location.href;
+    } catch (error) {
+      errorAlert();
+      //console.log(error.response.data.message, "error");
+    }
+    setConsultando(false);
+  };
 
   const desactivarSemestre = async () => {
     setConsultando(true);
@@ -272,12 +298,15 @@ export const CardCarrera = ({ semestre }) => {
           <button
             onClick={() => {
               semestreSelected.current = semestre.id;
-              validacionSemestre(true);
-              if (hasErrorsSemestre) {
-                return;
-              } else {
-                estadoActualizarAlert();
-              }
+              // validacionSemestre(true);
+              // if (hasErrorsSemestre) {
+              //   return;
+              // } else {
+              //   estadoActualizarAlert();
+              // }
+              console.log("nombre",nombre);
+              console.log("descripcion",descripcion);
+              console.log("imagen path",path);
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
