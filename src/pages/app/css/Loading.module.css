@@ -1,0 +1,31 @@
+.spinner{    
+    
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    color: rgb(13, 185, 238);
+}
+.spinning{
+    margin: 10% auto 0px;
+    animation: spinning 1s linear infinite;
+}
+.spinner .text{
+    text-decoration: none;
+    color: rgb(13, 185, 238);
+    margin: 15px auto 0px;
+    font-size: x-large;
+    font-weight: 1000;
+}
+.dark svg {
+    color: rgb(142, 142, 142);
+}
+.dark .text {
+    color: rgb(206, 206, 206);
+    text-shadow: 1px 2px 1.5px rgb(107, 107, 107);
+    text-decoration: none;
+}
+@keyframes spinning {
+    to{
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,20 @@
+
+.avatarImg{
+    object-fit: cover;
+    width: 40px;
+    height:40px;
+    border-radius:50%;
+    border: 1px solid cyan;
+}
+
+/* footer {
+    position: absolute;
+    background-color: rgb(3, 120, 167);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    text-align: center;
+    color: #fff;
+    
+  } */
