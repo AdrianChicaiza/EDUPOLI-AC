@@ -46,16 +46,18 @@ export const ConfirmarContra = () => {
     
     console.log("token", token);
     console.log("email", email);
+   
   }, []);
 
   const confirmPassword = async (e) => {
     e.preventDefault();
-    console.log("token de la funcion", token);
-    console.log("email de la funcion", email);
+    console.log("token 2", token);
+    console.log("email 2", email);
     try {
       await axios.post(
         BACKEND + "/api/v1/reset-password",
-        { token, email, password, password_confirmation }
+        { token, email, password, password_confirmation },
+        { headers: { accept: "application/json" } }
       );
 
       bienAlert();
