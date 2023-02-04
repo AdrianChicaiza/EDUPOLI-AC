@@ -68,7 +68,7 @@ export const ConfirmarContra = () => {
         errorDuplicidad();
       }
     } catch (error) {
-      console.log(error.response.data.message, "error");
+      console.log(error);
       setEmail("");
       setPassword("");
       setpassword_confirmation("");
