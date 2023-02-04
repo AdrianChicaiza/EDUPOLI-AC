@@ -319,7 +319,7 @@ export const SemestrePage = () => {
     e.preventDefault();
     try {
       await axios.post(
-        BACKEND + "/api/v1/comentarios/admin/cambio/" + semestreid,
+        BACKEND + "/api/v1/comentarios/sistema/cambio/" + semestreid,
         { comentario },
         config
       );
@@ -333,7 +333,7 @@ export const SemestrePage = () => {
     setRecargar(true);
     try {
       const response = await axios.get(
-        BACKEND + "/api/v1/comentarios/admin",
+        BACKEND + "/api/v1/comentarios/sistema",
         config
       );
       const nuevoarreglo = [];
@@ -376,7 +376,7 @@ export const SemestrePage = () => {
     setConsultando(true);
     try {
       await axios.delete(
-        BACKEND + "/api/v1/comentarios/admin/" + comentSelect.current,
+        BACKEND + "/api/v1/comentarios/sistema/" + comentSelect.current,
         config
       );
       bienAlert();
