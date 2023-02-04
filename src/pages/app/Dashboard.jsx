@@ -120,7 +120,7 @@ export const Dashboard = () => {
   const traerCarrerasEstudiante = async () => {
     try {
       const response = await axios.get(
-        BACKEND + "/api/v1/carreras/estudianteE",
+        BACKEND + "/api/v1/carreras/adminE",
         config
       );
       const carrerasfiltradasconts = [];
@@ -148,7 +148,7 @@ export const Dashboard = () => {
     setRecargar(true);
     try {
       const response = await axios.get(
-        BACKEND + "/api/v1/semestres/estudiante",
+        BACKEND + "/api/v1/semestres/admin",
         config
       );
       setSem(response.data.data);
