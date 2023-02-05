@@ -12,7 +12,8 @@ export const ConfirmarContra = () => {
   const [password_confirmation, setpassword_confirmation] = useState("");
   const [errorContrasena, setErrorContrasena] = useState("");
   const [errorContrasenaConfirm, setErrorContrasenaConfirm] = useState("");
-  const [consultando, setConsultando] = useState(false);
+  const [em, setEm] = useState("");
+  const [tok, setTok] = useState("");
   let haserrorsPassword = false;
 
   const Swal = require("sweetalert2");
@@ -37,13 +38,18 @@ export const ConfirmarContra = () => {
   useEffect(() => {
     let cadenatoken1 = window.location.href.split("token=")[1];
     cadenatoken1.split("&");
-    settoken(cadenatoken1.split("&")[0]);
-    setEmail(window.location.href.split("email=")[1]);
+    setEm(cadenatoken1.split("&")[0]);
+    setTok(window.location.href.split("email=")[1]);
+    console.log("valor de em effect",em);
+    console.log("valor de tok effect",tok);
   }, []);
 
   const confirmPassword = async (e) => {
-    setConsultando(true);
     e.preventDefault();
+    setEmail(em);
+    settoken(tok);
+    console.log("valor de email",email);
+    console.log("valor de token",token);
     try {
       await axios.post(
         BACKEND + "/api/v1/reset-password",
@@ -58,7 +64,6 @@ export const ConfirmarContra = () => {
       setEmail("");
       settoken("");
     }
-    setConsultando(false);
   };
 
   const validatePassword = () => {
