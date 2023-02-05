@@ -61,7 +61,7 @@ export const Registro = () => {
       navigate("/");
     } catch (error) {
       errorAlert(error.response.data.errors.email);
-      console.log(error.response.data.errors, "error");
+      // console.log(error.response.data.errors, "error");
     }
     setConsultando(false);
   };
@@ -94,8 +94,8 @@ export const Registro = () => {
     if (password === null || password === "") {
       setErrorContrasena("Este campo contraseña es obligatorio");
       hasErrorsRegistro = true;
-    } else if (password.length < 6) {
-      setErrorContrasena("La contraseña debe tener mas de 6 caracteres");
+    } else if (password.length < 8) {
+      setErrorContrasena("La contraseña debe tener mas de 8 caracteres");
       hasErrorsRegistro = true;
     } else if (password.search(/[0-9]/) < 0) {
       setErrorContrasena("La contraseña debe contener al menos un digito");
@@ -120,8 +120,8 @@ export const Registro = () => {
         "Este campo confirmar contraseña es obligatorio"
       );
       hasErrorsRegistro = true;
-    } else if (password_confirmation.length < 6) {
-      setErrorContrasenaConfirm("La contraseña debe tener mas de 6 caracteres");
+    } else if (password_confirmation.length < 8) {
+      setErrorContrasenaConfirm("La contraseña debe tener mas de 8 caracteres");
       hasErrorsRegistro = true;
     } else if (password_confirmation.search(/[0-9]/) < 0) {
       setErrorContrasenaConfirm(
@@ -234,6 +234,7 @@ export const Registro = () => {
                         setpassword(e);
                         setErrorContrasena("");
                       }}
+                      tamaño={30}
                       placeholder="Contraseña"
                     />
                     <p className="text-red-500 text-xs italic">
@@ -253,6 +254,7 @@ export const Registro = () => {
                         setpassword_confirmation(e);
                         setErrorContrasenaConfirm("");
                       }}
+                      tamaño={30}
                       placeholder="Confirmar Contraseña"
                     />
                     <p className="text-red-500 text-xs italic">

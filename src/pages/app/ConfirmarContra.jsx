@@ -12,16 +12,10 @@ export const ConfirmarContra = () => {
   const [password_confirmation, setpassword_confirmation] = useState("");
   const [errorContrasena, setErrorContrasena] = useState("");
   const [errorContrasenaConfirm, setErrorContrasenaConfirm] = useState("");
+  const [consultando, setConsultando] = useState(false);
   let haserrorsPassword = false;
 
   const Swal = require("sweetalert2");
-  const errorPasswordAlert = () => {
-    Swal.fire({
-      icon: "warning",
-      title: "Atencion",
-      text: "Las contraseñas no coinciden",
-    });
-  };
 
   const bienAlert = () => {
     Swal.fire({
@@ -31,11 +25,12 @@ export const ConfirmarContra = () => {
       timer: 2000,
     });
   };
-  const errorAlert = () => {
+  const errorAlert = (mensaje) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Algo salio mal",
+      text: mensaje,
+      timer: 2500,
     });
   };
 
@@ -47,6 +42,7 @@ export const ConfirmarContra = () => {
   }, []);
 
   const confirmPassword = async (e) => {
+    setConsultando(true);
     e.preventDefault();
     try {
       await axios.post(
@@ -57,18 +53,20 @@ export const ConfirmarContra = () => {
       navigate("login");
       bienAlert();
     } catch (error) {
-      setEmail("");     
+      errorAlert(error.response.data.errors.password);
+      console.log(error.response.data.errors.password, "error");
+      setEmail("");
       settoken("");
-      errorAlert();
     }
+    setConsultando(false);
   };
 
   const validatePassword = () => {
     if (password === null || password === "") {
       setErrorContrasena("Este campo contraseña es obligatorio");
       haserrorsPassword = true;
-    } else if (password.length < 6) {
-      setErrorContrasena("La contraseña debe tener mas de 6 caracteres");
+    } else if (password.length < 8) {
+      setErrorContrasena("La contraseña debe tener mas de 8 caracteres");
       haserrorsPassword = true;
     } else if (password.search(/[0-9]/) < 0) {
       setErrorContrasena("La contraseña debe contener al menos un digito");
@@ -93,8 +91,8 @@ export const ConfirmarContra = () => {
         "Este campo confirmar contraseña es obligatorio"
       );
       haserrorsPassword = true;
-    } else if (password_confirmation.length < 6) {
-      setErrorContrasenaConfirm("La contraseña debe tener mas de 6 caracteres");
+    } else if (password_confirmation.length < 8) {
+      setErrorContrasenaConfirm("La contraseña debe tener mas de 8 caracteres");
       haserrorsPassword = true;
     } else if (password_confirmation.search(/[0-9]/) < 0) {
       setErrorContrasenaConfirm(
@@ -184,10 +182,7 @@ export const ConfirmarContra = () => {
                       if (haserrorsPassword) {
                         return;
                       } else {
-                        if (password !== password_confirmation) {
-                          errorPasswordAlert();
-                          return;
-                        }
+                        confirmPassword();
                       }
                     }}
                     className="group relative flex w-full justify-center rounded-md border border-transparent bg-cyan-700 py-2 px-4 text-sm font-medium text-white hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
