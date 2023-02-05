@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loading from "../../pages/app/loading";
 import { IconDelete } from "./IconDelete";
@@ -13,8 +14,8 @@ export const ComentarioCard = ({
   onClickEdit,
 }) => {
   const [usuarioComentario, setUsuarioComentario] = useState(null);
-  const tokenUser = localStorage.getItem("token");
   const [cargandoComents, setCargandoComents] = useState(false);
+
   const usuarioWhoCommented = () => {
     usuarios?.map((usuarioComent) => {
       if (usuarioComent.id === comentario.user_id) {
@@ -41,11 +42,11 @@ export const ComentarioCard = ({
               : "https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png"
           }
           alt=""
-          className="mr-2 w-10 h-10 rounded-full"
+          className="mr-2 w-10 h-10 rounded-full object-cover"
         />
         <div className="items-center text-base ">
           <div className="flex items-center text-base ">
-            {usuarioComentario?.first_name} {usuarioComentario?.last_name}
+            {usuarioComentario?.first_name?usuarioComentario?.first_name:"Comentario..."} {usuarioComentario?.last_name?usuarioComentario?.last_name:""}
           </div>
           <div className="flex text-sm items-center text-base line-clamp-2">
             {comentario?.comentario}

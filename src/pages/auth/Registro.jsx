@@ -61,7 +61,6 @@ export const Registro = () => {
       navigate("/");
     } catch (error) {
       errorAlert(error.response.data.errors.email);
-      // console.log(error.response.data.errors, "error");
     }
     setConsultando(false);
   };
