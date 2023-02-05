@@ -10,7 +10,18 @@ export const ConfirmarContra = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password_confirmation, setpassword_confirmation] = useState("");
+  const [errorContrasena, setErrorContrasena] = useState("");
+  const [errorContrasenaConfirm, setErrorContrasenaConfirm] = useState("");
+  let haserrorsPassword = false;
+
   const Swal = require("sweetalert2");
+  const errorPasswordAlert = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Atencion",
+      text: "Las contraseñas no coinciden",
+    });
+  };
 
   const bienAlert = () => {
     Swal.fire({
@@ -20,16 +31,6 @@ export const ConfirmarContra = () => {
       timer: 2000,
     });
   };
-
-  const errorDuplicidad = () => {
-    Swal.fire({
-      icon: "error",
-      title: "Las contraseñas no coinciden",
-      showConfirmButton: false,
-      timer: 2000,
-    });
-  };
-
   const errorAlert = () => {
     Swal.fire({
       icon: "error",
@@ -43,37 +44,78 @@ export const ConfirmarContra = () => {
     cadenatoken1.split("&");
     settoken(cadenatoken1.split("&")[0]);
     setEmail(window.location.href.split("email=")[1]);
-    
-    console.log("token", token);
-    console.log("email", email);
-   
   }, []);
 
   const confirmPassword = async (e) => {
     e.preventDefault();
-    console.log("token 2", token);
-    console.log("email 2", email);
     try {
       await axios.post(
         BACKEND + "/api/v1/reset-password",
         { token, email, password, password_confirmation },
         { headers: { accept: "application/json" } }
       );
-
+      navigate("login");
       bienAlert();
-      if (password === password_confirmation) {
-        navigate("login");
-        bienAlert();
-      } else {
-        errorDuplicidad();
-      }
     } catch (error) {
-      console.log(error);
-      setEmail("");
-      setPassword("");
-      setpassword_confirmation("");
+      setEmail("");     
       settoken("");
       errorAlert();
+    }
+  };
+
+  const validatePassword = () => {
+    if (password === null || password === "") {
+      setErrorContrasena("Este campo contraseña es obligatorio");
+      haserrorsPassword = true;
+    } else if (password.length < 6) {
+      setErrorContrasena("La contraseña debe tener mas de 6 caracteres");
+      haserrorsPassword = true;
+    } else if (password.search(/[0-9]/) < 0) {
+      setErrorContrasena("La contraseña debe contener al menos un digito");
+      haserrorsPassword = true;
+    } else if (password.search(/[a-z]/i) < 0) {
+      setErrorContrasena("La contraseña debe contener al menos una letra");
+      haserrorsPassword = true;
+    } else if (password.search(/[A-Z]/g) < 0) {
+      setErrorContrasena(
+        "La contraseña debe contener al menos una letra mayuscula"
+      );
+      haserrorsPassword = true;
+    } else if (password.search(/[^a-zA-Z\d]/g) < 0) {
+      setErrorContrasena(
+        "La contraseña debe contener al menos un caracter especial"
+      );
+      haserrorsPassword = true;
+    }
+
+    if (password_confirmation === null || password_confirmation === "") {
+      setErrorContrasenaConfirm(
+        "Este campo confirmar contraseña es obligatorio"
+      );
+      haserrorsPassword = true;
+    } else if (password_confirmation.length < 6) {
+      setErrorContrasenaConfirm("La contraseña debe tener mas de 6 caracteres");
+      haserrorsPassword = true;
+    } else if (password_confirmation.search(/[0-9]/) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos un digito"
+      );
+      haserrorsPassword = true;
+    } else if (password_confirmation.search(/[a-z]/i) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos una letra"
+      );
+      haserrorsPassword = true;
+    } else if (password_confirmation.search(/[A-Z]/g) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos una letra mayuscula"
+      );
+      haserrorsPassword = true;
+    } else if (password_confirmation.search(/[^a-zA-Z\d]/g) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos un caracter especial"
+      );
+      haserrorsPassword = true;
     }
   };
 
@@ -90,7 +132,7 @@ export const ConfirmarContra = () => {
                   alt="Imagen Confirmar Contraseña"
                 />
                 <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                  Ingresa tu nueva contraseña :D
+                  Ingresa tu nueva contraseña
                 </h2>
               </div>
               <form className="mt-8 space-y-6" onSubmit={confirmPassword}>
@@ -102,11 +144,17 @@ export const ConfirmarContra = () => {
                       name="password"
                       type="password"
                       value={password}
-                      required
                       className="relative block w-full appearance-none rounded-none rounded-t-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-cyan-700 focus:outline-none focus:ring-cyan-700 sm:text-sm"
                       placeholder="Nueva Contraseña"
-                      onChange={(e) => setPassword(e.target.value)}
+                      maxLength={30}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setErrorContrasena("");
+                      }}
                     />
+                    <p className="text-red-500 text-xs italic">
+                      {errorContrasena}
+                    </p>
                   </div>
                   <div>
                     <input
@@ -114,17 +162,34 @@ export const ConfirmarContra = () => {
                       name="password_confirmation"
                       type="password"
                       value={password_confirmation}
-                      required
+                      maxLength={30}
                       className="relative block w-full appearance-none rounded-none rounded-b-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-cyan-700 focus:outline-none focus:ring-cyan-700 sm:text-sm"
                       placeholder="Confirma tu nueva Contraseña"
-                      onChange={(e) => setpassword_confirmation(e.target.value)}
+                      onChange={(e) => {
+                        setpassword_confirmation(e.target.value);
+                        setErrorContrasenaConfirm("");
+                      }}
                     />
+                    <p className="text-red-500 text-xs italic">
+                      {errorContrasenaConfirm}
+                    </p>
                   </div>
                 </div>
 
                 <div>
                   <button
                     type="submit"
+                    onClick={() => {
+                      validatePassword(true);
+                      if (haserrorsPassword) {
+                        return;
+                      } else {
+                        if (password !== password_confirmation) {
+                          errorPasswordAlert();
+                          return;
+                        }
+                      }
+                    }}
                     className="group relative flex w-full justify-center rounded-md border border-transparent bg-cyan-700 py-2 px-4 text-sm font-medium text-white hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
                   >
                     <span className="absolute inset-y-0 left-0 flex items-center  pl-3">

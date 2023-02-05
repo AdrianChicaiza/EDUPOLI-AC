@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loading from "../../pages/app/loading";
-import { BACKEND } from "../../pages/VariableBck";
 import { IconDelete } from "./IconDelete";
 import { IconEdit } from "./IconEdit";
 
@@ -17,9 +15,6 @@ export const ComentarioCard = ({
   const [usuarioComentario, setUsuarioComentario] = useState(null);
   const tokenUser = localStorage.getItem("token");
   const [cargandoComents, setCargandoComents] = useState(false);
-  const config = {
-    headers: { Authorization: `${tokenUser}` },
-  };
   const usuarioWhoCommented = () => {
     usuarios?.map((usuarioComent) => {
       if (usuarioComent.id === comentario.user_id) {

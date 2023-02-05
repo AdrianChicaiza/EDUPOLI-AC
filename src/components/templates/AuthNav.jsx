@@ -9,7 +9,6 @@ import { NavDropdown } from "react-bootstrap";
 import { useEffect } from "react";
 import "../templates/imageAvatar.css";
 import { BACKEND } from "../../pages/VariableBck";
-import Footer from "./Footer";
 
 export const AuthNav = () => {
   const navigate = useNavigate();

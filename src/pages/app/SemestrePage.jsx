@@ -25,7 +25,6 @@ export const SemestrePage = () => {
   const [estadoModal4, setEstadoModal4] = useState(false);
   const [estadoModal5, setEstadoModal5] = useState(false);
   const [active, setActive] = useState(false);
-  const comentariosSemestre = [];
   const { user } = useContext(AuthContext);
   const [materias, setMaterias] = useState(null);
   const materiaSelect = useRef(-1);
@@ -50,7 +49,7 @@ export const SemestrePage = () => {
   const [materiasFiltradas, setMateriasFiltradas] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [errorNombreMateria, seterrorNombreMateria] = useState("");
-  const [path, setPath] = useState("");
+  const [activeActualizarDoc, setActiveActualizarDoc] = useState(false);
   const [loadingboton, setLoadingboton] = useState(true);
   const Swal = require("sweetalert2");
   const errorAlert = () => {
@@ -144,6 +143,19 @@ export const SemestrePage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         editarDocumento();
+      }
+    });
+  };
+  const editarDocumentoCampoAlert = () => {
+    Swal.fire({
+      title: "Estas seguro de cambiar el nombre del Documento?",
+      showDenyButton: true,
+      confirmButtonText: "Confirmar",
+      confirmButtonColor: "#1080C9",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        editarDocumentoCampo();
       }
     });
   };
@@ -314,6 +326,28 @@ export const SemestrePage = () => {
     }
     setConsultando(false);
   };
+  const editarDocumentoCampo = async () => {
+    setConsultando(true);
+    try {
+      await axios.post(
+        BACKEND +
+          "/api/v1/documentos/admin/actualizar/" +
+          archivoSelect.current,
+        { nombre_doc },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `${tokenUser}`,
+          },
+        }
+      );
+      bienAlert();
+      window.location = window.location.href;
+    } catch (error) {
+      errorAlert();
+    }
+    setConsultando(false);
+  };
   const comentar = async (e) => {
     setConsultando(true);
     e.preventDefault();
@@ -434,14 +468,23 @@ export const SemestrePage = () => {
       hasErrorsDocumento = true;
     }
   };
+  const validarDocumentoNombre = () => {
+    if (nombre_doc === null || nombre_doc === "") {
+      setErrorNombreDoc("Ingresa un nombre al documento");
+      hasErrorsDocumento = true;
+    } else if (nombre_doc < 3) {
+      setErrorNombreDoc("El nombre no puede tener menos de 3 caracteres");
+      hasErrorsDocumento = true;
+    }
+  };
 
   useEffect(() => {
     traerMateriasRol();
     traerUsuarios();
   }, []);
-  // if (recargar || !comentarios) {
-  //   return <Loading />;
-  // }
+  if (recargar || !comentarios) {
+    return <Loading />;
+  }
   return (
     <>
       <Modal isOpen={estadoModal} style={modalStyle}>
@@ -581,6 +624,7 @@ export const SemestrePage = () => {
                 onChange={(e) => {
                   setErrorDocumento("");
                   setdocumentos(e.target.files[0]);
+                  setActiveActualizarDoc(true);
                 }}
               />
               <p className="flex justify-center text-red-500 text-xs italic">
@@ -590,12 +634,18 @@ export const SemestrePage = () => {
             <div className="flex flex-row items-end w-full justify-start mt-2">
               <button
                 onClick={() => {
-                  // validarDocumento(true);
-                  // if (hasErrorsDocumento) {
-                  //   return;
-                  // } else {
-                  editarDocumentoAlert();
-                  // }
+                  validarDocumentoNombre(true);
+                  if (hasErrorsDocumento) {
+                    return;
+                  } else {
+                    if (activeActualizarDoc) {
+                      console.log("Actualizo todo");
+                      editarDocumentoAlert();
+                    } else {
+                      console.log("Actualizo campossss");
+                      editarDocumentoCampoAlert();
+                    }
+                  }
                 }}
                 disabled={consultando}
                 className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px] mr-1"

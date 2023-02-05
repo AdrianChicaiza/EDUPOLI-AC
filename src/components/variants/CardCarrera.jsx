@@ -28,7 +28,7 @@ export const CardCarrera = ({ semestre }) => {
   const [nombre, setNombre] = useState(semestre.nombre);
   const [descripcion, setDescripcion] = useState(semestre.descripcion);
   const [errorDocumento, setErrorDocumento] = useState("");
-
+  const [activeActualizar, setActiveActualizar] = useState(false);
   const Swal = require("sweetalert2");
   const [path, setPath] = useState(
     "https://w7.pngwing.com/pngs/370/8/png-transparent-file-transfer-protocol-computer-icons-upload-personal-use-angle-rectangle-triangle.png"
@@ -78,10 +78,21 @@ export const CardCarrera = ({ semestre }) => {
       confirmButtonColor: "#1080C9",
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         actualizarSemestre();
-        //Swal.fire("Saved!", "", "success");
+      }
+    });
+  };
+  const estadoActualizarCamposAlert = () => {
+    Swal.fire({
+      title: "Estas seguro de actualizar los datos del semestre?",
+      showDenyButton: true,
+      confirmButtonText: "Confirmar",
+      confirmButtonColor: "#1080C9",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        actualizarSemestreCampos();
       }
     });
   };
@@ -141,7 +152,7 @@ export const CardCarrera = ({ semestre }) => {
     try {
       await axios.post(
         BACKEND + "/api/v1/semestres/admin/update/" + semestreSelected.current,
-        { nombre, descripcion},
+        { nombre, descripcion },
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -195,11 +206,6 @@ export const CardCarrera = ({ semestre }) => {
       setErrorDescripcion("La descripcion debe tener mas de 4 caracteres");
       hasErrorsSemestre = true;
     }
-    if (document.formularioDoc.imagenSem.value === "") {
-      console.log("No esta lleno el input file");
-      setErrorDocumento("Debes escojer una imagen .jpg");
-      hasErrorsSemestre = true;
-    }
   };
 
   useEffect(() => {
@@ -225,7 +231,7 @@ export const CardCarrera = ({ semestre }) => {
           <form name="formularioDoc" onSubmit={actualizarSemestre}>
             <div className="flex justify-center">
               <img
-                src={path}
+                src={semestre?.path}
                 id="imgFoto"
                 alt="Imagen Usuario"
                 className="flex items-center justify-center  w-[280px] h-[200px] object-cover bg-black"
@@ -248,6 +254,7 @@ export const CardCarrera = ({ semestre }) => {
                   vistaPreliminarFoto(e);
                   setErrorDocumento("");
                   setPath(e.target.files[0]);
+                  setActiveActualizar(true);
                 }}
               />
             </div>
@@ -267,7 +274,7 @@ export const CardCarrera = ({ semestre }) => {
                 setErrorNombre("");
               }}
               placeholder="Ingresa el nombre del semestre"
-              minLength={5}
+              tamaño={35}
             />
             <p className="text-red-500 text-xs italic">{errorNombre}</p>
 
@@ -298,15 +305,18 @@ export const CardCarrera = ({ semestre }) => {
           <button
             onClick={() => {
               semestreSelected.current = semestre.id;
-              // validacionSemestre(true);
-              // if (hasErrorsSemestre) {
-              //   return;
-              // } else {
-              //   estadoActualizarAlert();
-              // }
-              console.log("nombre",nombre);
-              console.log("descripcion",descripcion);
-              console.log("imagen path",path);
+              validacionSemestre(true);
+              if (hasErrorsSemestre) {
+                return;
+              } else {
+                if (activeActualizar) {
+                  estadoActualizarAlert();
+                  return;
+                } else {
+                  estadoActualizarCamposAlert();
+                  return;
+                }
+              }
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
@@ -320,6 +330,8 @@ export const CardCarrera = ({ semestre }) => {
               setErrorDescripcion("");
               setErrorDocumento("");
               setEstadoModal(false);
+              setActiveActualizar(false);
+              console.log(activeActualizar);
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"

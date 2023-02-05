@@ -20,11 +20,11 @@ export const Registro = () => {
   const role_id = 2;
   let hasErrorsRegistro = false;
   const Swal = require("sweetalert2");
-  const errorAlert = () => {
+  const errorAlert = (mensaje) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Algo salio mal",
+      text: mensaje,
     });
   };
   const errorPasswordAlert = () => {
@@ -32,7 +32,6 @@ export const Registro = () => {
       icon: "warning",
       title: "Atencion",
       text: "Las contraseñas no coinciden",
-      
     });
   };
   const bienAlert = () => {
@@ -45,28 +44,24 @@ export const Registro = () => {
     });
   };
 
-  const registroF = async () => {
+  const registroF = async (e) => {
+    e.preventDefault();
     setConsultando(true);
     try {
-      await axios.post(
-        BACKEND + "/api/v1/register",
-        {
-          role_id,
-          first_name,
-          last_name,
-          password,
-          password_confirmation,
-          email,
-        },
-      );
-      if (password === password_confirmation) {
-        bienAlert();
-        navigate("/");
-      } else {
-        errorPasswordAlert();
-      }
+      await axios.post(BACKEND + "/api/v1/register", {
+        role_id,
+        first_name,
+        last_name,
+        password,
+        password_confirmation,
+        email,
+      });
+
+      bienAlert();
+      navigate("/");
     } catch (error) {
-      errorAlert();
+      errorAlert(error.response.data.errors.email);
+      console.log(error.response.data.errors, "error");
     }
     setConsultando(false);
   };
@@ -102,7 +97,24 @@ export const Registro = () => {
     } else if (password.length < 6) {
       setErrorContrasena("La contraseña debe tener mas de 6 caracteres");
       hasErrorsRegistro = true;
+    } else if (password.search(/[0-9]/) < 0) {
+      setErrorContrasena("La contraseña debe contener al menos un digito");
+      hasErrorsRegistro = true;
+    } else if (password.search(/[a-z]/i) < 0) {
+      setErrorContrasena("La contraseña debe contener al menos una letra");
+      hasErrorsRegistro = true;
+    } else if (password.search(/[A-Z]/g) < 0) {
+      setErrorContrasena(
+        "La contraseña debe contener al menos una letra mayuscula"
+      );
+      hasErrorsRegistro = true;
+    } else if (password.search(/[^a-zA-Z\d]/g) < 0) {
+      setErrorContrasena(
+        "La contraseña debe contener al menos un caracter especial"
+      );
+      hasErrorsRegistro = true;
     }
+
     if (password_confirmation === null || password_confirmation === "") {
       setErrorContrasenaConfirm(
         "Este campo confirmar contraseña es obligatorio"
@@ -110,6 +122,26 @@ export const Registro = () => {
       hasErrorsRegistro = true;
     } else if (password_confirmation.length < 6) {
       setErrorContrasenaConfirm("La contraseña debe tener mas de 6 caracteres");
+      hasErrorsRegistro = true;
+    } else if (password_confirmation.search(/[0-9]/) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos un digito"
+      );
+      hasErrorsRegistro = true;
+    } else if (password_confirmation.search(/[a-z]/i) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos una letra"
+      );
+      hasErrorsRegistro = true;
+    } else if (password_confirmation.search(/[A-Z]/g) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos una letra mayuscula"
+      );
+      hasErrorsRegistro = true;
+    } else if (password_confirmation.search(/[^a-zA-Z\d]/g) < 0) {
+      setErrorContrasenaConfirm(
+        "La contraseña debe contener al menos un caracter especial"
+      );
       hasErrorsRegistro = true;
     }
   };
@@ -231,13 +263,16 @@ export const Registro = () => {
                 <div className="flex flex-row justify-center space-x-4">
                   <div>
                     <button
-                      type="button"
+                    type="submit"
                       onClick={() => {
                         validacionRegistro(true);
                         if (hasErrorsRegistro) {
                           return;
                         } else {
-                          registroF();
+                          if (password !== password_confirmation) {
+                            errorPasswordAlert();
+                            return;
+                          }
                         }
                       }}
                       disabled={consultando}

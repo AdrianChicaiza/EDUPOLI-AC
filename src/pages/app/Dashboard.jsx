@@ -171,7 +171,6 @@ export const Dashboard = () => {
           },
         }
       );
-
       setEstadoModal(false);
       setNombre("");
       setDescripcion("");
