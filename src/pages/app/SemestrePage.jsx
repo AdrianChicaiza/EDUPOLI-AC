@@ -178,7 +178,7 @@ export const SemestrePage = () => {
   const traerMateriasAdmin = async () => {
     try {
       const response = await axios.get(
-        BACKEND + "/api/v1/materias/adminE",
+        BACKEND + "/api/v1/materias/admin",
         config
       );
       const materias2 = [];
@@ -196,7 +196,7 @@ export const SemestrePage = () => {
   const traerMaterias = async () => {
     try {
       const response = await axios.get(
-        BACKEND + "/api/v1/materias/admin",
+        BACKEND + "/api/v1/materias/adminE",
         config
       );
       const materias2 = [];
