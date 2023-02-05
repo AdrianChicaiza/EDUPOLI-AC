@@ -53,8 +53,8 @@ export const ConfirmarContra = () => {
       navigate("login");
       bienAlert();
     } catch (error) {
-      errorAlert(error.response.data.errors.password);
-      console.log(error.response.data.errors.password, "error");
+      errorAlert(error.response.data.errors.password[0]);
+      console.log(error.response.data.errors, "error");
       setEmail("");
       settoken("");
     }
