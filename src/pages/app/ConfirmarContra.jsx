@@ -12,10 +12,7 @@ export const ConfirmarContra = () => {
   const [password_confirmation, setpassword_confirmation] = useState("");
   const [errorContrasena, setErrorContrasena] = useState("");
   const [errorContrasenaConfirm, setErrorContrasenaConfirm] = useState("");
-  const [em, setEm] = useState("");
-  const [tok, setTok] = useState("");
   let haserrorsPassword = false;
-
   const Swal = require("sweetalert2");
 
   const bienAlert = () => {
@@ -38,18 +35,12 @@ export const ConfirmarContra = () => {
   useEffect(() => {
     let cadenatoken1 = window.location.href.split("token=")[1];
     cadenatoken1.split("&");
-    setEm(cadenatoken1.split("&")[0]);
-    setTok(window.location.href.split("email=")[1]);
-    console.log("valor de em effect",em);
-    console.log("valor de tok effect",tok);
+    settoken(cadenatoken1.split("&")[0]);
+    setEmail(window.location.href.split("email=")[1]);
   }, []);
 
   const confirmPassword = async (e) => {
     e.preventDefault();
-    setEmail(em);
-    settoken(tok);
-    console.log("valor de email",email);
-    console.log("valor de token",token);
     try {
       await axios.post(
         BACKEND + "/api/v1/reset-password",
@@ -60,9 +51,6 @@ export const ConfirmarContra = () => {
       bienAlert();
     } catch (error) {
       errorAlert(error.response.data.errors.password[0]);
-      console.log(error.response.data.errors, "error");
-      setEmail("");
-      settoken("");
     }
   };
 
@@ -197,13 +185,13 @@ export const ConfirmarContra = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
                         className="w-6 h-6"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
                         />
                       </svg>
