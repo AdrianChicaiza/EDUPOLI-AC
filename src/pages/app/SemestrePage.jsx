@@ -668,7 +668,6 @@ export const SemestrePage = () => {
           </div>
         </ModalBody>
       </Modal>
-      {/* //EDITAR ESTA PARTE DE EDITAR COMENTARIO ----------------------------------------------- */}
       <Modal isOpen={estadoModal4} style={modalStyle}>
         <ModalHeader>Editar Comentario</ModalHeader>
         <ModalBody>
@@ -878,7 +877,7 @@ export const SemestrePage = () => {
                           setNombre(materiasSemestre.nombre);
                           materiaSelect.current = materiasSemestre.id;
                         }}
-                        className="bg-sky-700 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px]"
+                        className="bg-sky-600 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px]"
                       >
                         {consultando ? "..." : <IconEdit />}
                       </button>
@@ -909,9 +908,24 @@ export const SemestrePage = () => {
                           return (
                             <div
                               key={docs.id}
-                              className="flex flex-row justify-between items-center rounded-[2px] bg-[#2874A6] mb-1 ml-2"
+                              className="flex flex-row justify-start items-center rounded-[2px] bg-[#2874A6] mb-1 ml-2"
                             >
-                              <div className="line-clamp-1">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="white"
+                                className="w-10 h-10 ml-2"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                                />
+                              </svg>
+
+                              <div className="line-clamp-1 w-full">
                                 <a
                                   href={docs.path}
                                   className="flex justify-start  h-7 w-full items-center px-1 no-underline text-white"
@@ -921,19 +935,15 @@ export const SemestrePage = () => {
                               </div>
 
                               {active ? (
-                                <div className="flex flex-row">
+                                <div className="flex flex-row w-full justify-end mr-2">
                                   <button
                                     type="button"
                                     onClick={() => {
                                       archivoSelect.current = docs.id;
                                       setEstadoModal3(true);
                                       setNombre_doc(docs.nombre_doc);
-
-                                      // setdocumentos(docs.path);
-
-                                      // console.log("documeto", docs.path);
                                     }}
-                                    className="bg-sky-600 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px]"
+                                    className="bg-sky-600 hover:bg-sky-900 text-white font-medium py-2 px-3 rounded-[3px]"
                                   >
                                     {consultando ? "..." : <IconEdit />}
                                   </button>
@@ -944,7 +954,7 @@ export const SemestrePage = () => {
                                       eliminarDocumentoAlert();
                                     }}
                                     disabled={consultando}
-                                    className="bg-sky-900 hover:bg-sky-600 text-white font-medium py-1 px-3 rounded-[3px]"
+                                    className="bg-red-800 hover:bg-red-900 text-white font-medium py-2 px-3 rounded-[3px]"
                                   >
                                     {consultando ? "..." : <IconDelete />}
                                   </button>

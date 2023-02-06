@@ -66,7 +66,7 @@ export const ComentarioCard = ({
             type="button"
             onClick={onClickDelete}
             disabled={consultando}
-            className="bg-sky-900 hover:bg-sky-700 text-white font-medium py-1 px-3 "
+            className="bg-red-800 hover:bg-red-900 text-white font-medium py-1 px-3 "
           >
             {consultando ? "..." : <IconDelete />}
           </button>
