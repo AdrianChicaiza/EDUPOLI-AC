@@ -395,7 +395,7 @@ export const SemestrePage = () => {
     setConsultando(true);
     try {
       await axios.put(
-        BACKEND + "/api/v1/comentarios/admin/" + comentSelect.current,
+        BACKEND + "/api/v1/comentarios/sistema/" + comentSelect.current,
         { comentario },
         config
       );
@@ -458,8 +458,8 @@ export const SemestrePage = () => {
     if (nombre_doc === null || nombre_doc === "") {
       setErrorNombreDoc("Ingresa un nombre al documento");
       hasErrorsDocumento = true;
-    } else if (nombre_doc < 3) {
-      setErrorNombreDoc("El nombre no puede tener menos de 3 caracteres");
+    } else if (nombre_doc < 5) {
+      setErrorNombreDoc("El nombre no puede tener menos de 5 caracteres");
       hasErrorsDocumento = true;
     }
     if (document.formularioDoc.inputDoc.value === "") {
@@ -472,8 +472,8 @@ export const SemestrePage = () => {
     if (nombre_doc === null || nombre_doc === "") {
       setErrorNombreDoc("Ingresa un nombre al documento");
       hasErrorsDocumento = true;
-    } else if (nombre_doc < 3) {
-      setErrorNombreDoc("El nombre no puede tener menos de 3 caracteres");
+    } else if (nombre_doc < 5) {
+      setErrorNombreDoc("El nombre no puede tener menos de 5 caracteres");
       hasErrorsDocumento = true;
     }
   };
@@ -521,6 +521,7 @@ export const SemestrePage = () => {
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
+            id="CrearMatSelect"
           >
             {consultando ? "Cargando..." : "Crear"}
           </button>
@@ -571,6 +572,7 @@ export const SemestrePage = () => {
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
+            id="EditMateriaSelect"
           >
             {consultando ? "Cargando..." : "Editar"}
           </button>
@@ -649,6 +651,7 @@ export const SemestrePage = () => {
                 }}
                 disabled={consultando}
                 className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px] mr-1"
+                id="EditarDocconfirm"
               >
                 {consultando ? "Cargando..." : "Editar"}
               </button>
@@ -681,7 +684,7 @@ export const SemestrePage = () => {
               focus:outline-none focus:ring-cyan-700 sm:text-sm"
               type="text"
               name="comentario"
-              id="comentario"
+              id="comentarioEdit"
               value={comentario}
               onChange={(e) => setComentario(e.target.value)}
             />
@@ -693,7 +696,8 @@ export const SemestrePage = () => {
               editarComentarioAlert();
             }}
             disabled={consultando}
-            className=" inline-block px-3 py-1 h-9 bg-sky-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-700 hover:shadow-lg focus:bg-sky-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-800 active:shadow-lg transition duration-150 ease-in-out"
+            className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
+            id="EditComent"
           >
             {consultando ? "Cargando..." : "Editar"}
           </button>
@@ -704,7 +708,7 @@ export const SemestrePage = () => {
               setEstadoModal4(false);
             }}
             disabled={consultando}
-            className=" inline-block px-3 py-1 h-9 bg-sky-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-700 hover:shadow-lg focus:bg-sky-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-800 active:shadow-lg transition duration-150 ease-in-out"
+            className="bg-sky-900 hover:bg-sky-600 text-white font-bold py-1 px-3 rounded-[3px]"
           >
             {consultando ? "..." : "Cerrar"}
           </button>
@@ -766,6 +770,7 @@ export const SemestrePage = () => {
                 }}
                 disabled={consultando}
                 className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px] mr-1"
+                id="SubirDocumento"
               >
                 {consultando ? "Cargando..." : "Subir"}
               </button>
@@ -833,6 +838,7 @@ export const SemestrePage = () => {
                 materiaSelect.current = semestreid;
               }}
               className="bg-green-700 hover:bg-green-900 text-white font-medium py-1 px-3 rounded-[3px]"
+              id="CrearMat"
             >
               <IconCrear />
             </button>
@@ -878,6 +884,7 @@ export const SemestrePage = () => {
                           materiaSelect.current = materiasSemestre.id;
                         }}
                         className="bg-sky-600 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px]"
+                        id="EditMateria"
                       >
                         {consultando ? "..." : <IconEdit />}
                       </button>
@@ -889,6 +896,7 @@ export const SemestrePage = () => {
                         }}
                         disabled={consultando}
                         className="bg-sky-900 hover:bg-sky-700 text-white font-medium py-1 px-3 rounded-[3px]"
+                        id="DesactivarMat"
                       >
                         {consultando ? "..." : <IconDisable />}
                       </button>
@@ -944,6 +952,7 @@ export const SemestrePage = () => {
                                       setNombre_doc(docs.nombre_doc);
                                     }}
                                     className="bg-sky-600 hover:bg-sky-900 text-white font-medium py-2 px-3 rounded-[3px]"
+                                    id="EditDocSelec"
                                   >
                                     {consultando ? "..." : <IconEdit />}
                                   </button>
@@ -955,6 +964,7 @@ export const SemestrePage = () => {
                                     }}
                                     disabled={consultando}
                                     className="bg-red-800 hover:bg-red-900 text-white font-medium py-2 px-3 rounded-[3px]"
+                                    id="BorrarDocSelec"
                                   >
                                     {consultando ? "..." : <IconDelete />}
                                   </button>
@@ -983,6 +993,7 @@ export const SemestrePage = () => {
                         }}
                         disabled={consultando}
                         className="bg-sky-700 hover:bg-sky-900 text-white font-medium py-2 px-3 rounded-[3px]"
+                        id="EnviarDoc"
                       >
                         {consultando ? "..." : <IconSendDocument />}
                       </button>
@@ -1024,6 +1035,7 @@ export const SemestrePage = () => {
               type="submit"
               disabled={consultando}
               className="bg-sky-600 hover:bg-sky-900 text-white font-medium py-1 px-3 h-9 rounded-[3px] h-[32px]"
+              id="ComentarSend"
             >
               {consultando ? "..." : <IconSendComent />}
             </button>

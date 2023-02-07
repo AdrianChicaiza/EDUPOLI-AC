@@ -320,6 +320,7 @@ export const CardCarrera = ({ semestre }) => {
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
+            id="EditarSemSelect"
           >
             {consultando ? "Cargando..." : "Actualizar"}
           </button>
@@ -372,6 +373,7 @@ export const CardCarrera = ({ semestre }) => {
                 navigate("/semestre/" + semestre.id);
               }}
               className="bg-sky-700 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px]"
+              id="VerMaterias"
             >
               Ingresar
             </button>
@@ -383,6 +385,7 @@ export const CardCarrera = ({ semestre }) => {
                     setEstadoModal(true);
                   }}
                   className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px] mr-1"
+                  id="EditarSemestre"
                 >
                   <IconEdit />
                 </button>
@@ -394,6 +397,7 @@ export const CardCarrera = ({ semestre }) => {
                   }}
                   disabled={consultando}
                   className="bg-sky-900 hover:bg-sky-600 text-white font-bold py-1 px-3 rounded-[3px]"
+                  id="EstadoSemestre"
                 >
                   {consultando ? "..." : <IconDisable />}
                 </button>

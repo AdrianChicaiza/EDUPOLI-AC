@@ -59,14 +59,16 @@ export const ComentarioCard = ({
             type="button"
             onClick={onClickEdit}
             className="bg-sky-700 hover:bg-sky-900 text-white font-medium py-1 px-3 "
+            id="EditComentarioSelect"
           >
-            {consultando ? "" : <IconEdit />}
+            {consultando ? "..." : <IconEdit />}
           </button>
           <button
             type="button"
             onClick={onClickDelete}
             disabled={consultando}
             className="bg-red-800 hover:bg-red-900 text-white font-medium py-1 px-3 "
+            id="EliminarDocSelec"
           >
             {consultando ? "..." : <IconDelete />}
           </button>

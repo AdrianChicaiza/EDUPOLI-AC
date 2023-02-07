@@ -42,11 +42,11 @@ export const Dashboard = () => {
   let hasErrorsSemestre = false;
   const Swal = require("sweetalert2");
 
-  const errorAlert = () => {
+  const errorAlert = (mensaje) => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Algo salio mal",
+      text: mensaje?mensaje:"Algo salio mal",
     });
   };
 
@@ -201,8 +201,8 @@ export const Dashboard = () => {
       setEstadoModal(false);
       bienAlert();
       window.location = window.location.href;
-    } catch (error) {
-      errorAlert();
+    } catch (error) {      
+      errorAlert(error.response.data.messages.nombre[0]);
     }
     setConsultando(false);
   };
@@ -406,7 +406,8 @@ export const Dashboard = () => {
           </form>
         </ModalBody>
         <ModalFooter>
-          <button
+          <button            
+            type="button"
             onClick={() => {
               validacionSemestre(true);
               if (hasErrorsSemestre) {
@@ -417,6 +418,7 @@ export const Dashboard = () => {
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
+            id="CrearSemes"
           >
             {consultando ? "Cargando..." : "Crear"}
           </button>
@@ -602,6 +604,7 @@ export const Dashboard = () => {
               }
             }}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
+            id="ActualizarCarrera"
             disabled={consultando}
           >
             {consultando ? "Cargando..." : "Editar"}
@@ -720,6 +723,7 @@ export const Dashboard = () => {
                         }}
                         disabled={consultando}
                         className="bg-sky-700 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px] mr-1"
+                        id="EditCarr"
                       >
                         {consultando ? "..." : <IconEdit />}
                       </button>
@@ -730,6 +734,7 @@ export const Dashboard = () => {
                         }}
                         disabled={consultando}
                         className="bg-sky-900 hover:bg-sky-600 text-white font-bold py-1 px-3 rounded-[3px] mr-1"
+                        id="DesactivarCarrera"
                       >
                         {consultando ? "..." : <IconDesactivar />}
                       </button>
@@ -742,6 +747,7 @@ export const Dashboard = () => {
                         }}
                         disabled={consultando}
                         className="bg-green-700 hover:bg-green-900 text-white font-medium py-1 px-3 rounded-[3px] mr-2"
+                        id="CrearSem"
                       >
                         {consultando ? "..." : <IconCrear />}
                       </button>

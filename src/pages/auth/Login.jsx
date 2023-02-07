@@ -85,6 +85,7 @@ export const Login = () => {
                   <p className="mt-2 text-center text-sm text-gray-600 ">
                     O puedes{" "}
                     <a
+                      id="Regist"
                       href="/registro"
                       className="font-medium text-cyan-700 hover:text-cyan-500 no-underline "
                     >
@@ -141,6 +142,7 @@ export const Login = () => {
                   <div className="flex items-center justify-center">
                     <div className="text-sm  ">
                       <Link
+                        id="EnviarCorreo"
                         to="/confirmarCorreo"
                         className="font-medium text-cyan-700 hover:text-cyan-500 no-underline"
                       >

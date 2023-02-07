@@ -264,7 +264,8 @@ export const Registro = () => {
                 <div className="flex flex-row justify-center space-x-4">
                   <div>
                     <button
-                    type="submit"
+                      type="submit"
+                      id="RegitrarNuevo"
                       onClick={() => {
                         validacionRegistro(true);
                         if (hasErrorsRegistro) {

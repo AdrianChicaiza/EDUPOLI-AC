@@ -9,6 +9,7 @@ export const IconCrear = () => {
       strokeWidth="1.5"
       stroke="currentColor"
       className="w-6 h-6"
+      id="botonCrear"
     >
       <path
         strokeLinecap="round"

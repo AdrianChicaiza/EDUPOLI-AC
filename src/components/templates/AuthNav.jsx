@@ -88,7 +88,7 @@ export const AuthNav = () => {
                   title={firstName + " " + lastName}
                   id="collasible-nav-dropdown"
                 >
-                  <NavDropdown.Item href="/perfil">
+                  <NavDropdown.Item href="/perfil" id="EditPerfil"  >
                     Editar Perfil
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={onLogout}>Salir</NavDropdown.Item>
@@ -100,7 +100,6 @@ export const AuthNav = () => {
         <main className="px-20 py-2">
           <Outlet />
         </main>
-        {/* <Footer/> */}
       </div>
       
 

@@ -256,6 +256,7 @@ export const PerfilUsuario = () => {
                       }
                     }}
                     className="bg-sky-500 hover:bg-sky-900 text-white w-full font-medium py-1 px-3 rounded-[3px] mr-1 h-[35px]"
+                    id="ActualizarDatos"
                     disabled={consultando}
                   >
                     {consultando ? "Cargando..." : "Actualizar"}
@@ -266,6 +267,7 @@ export const PerfilUsuario = () => {
                       setEditar(true);
                     }}
                     className="bg-sky-700 hover:bg-sky-900 w-full text-white font-medium py-1 px-3 rounded-[3px] mr-1 h-[35px]"
+                    id="EditarSelect"
                   >
                     Editar
                   </button>

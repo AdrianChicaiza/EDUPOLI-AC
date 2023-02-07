@@ -30,7 +30,7 @@ export const ConfirmarCorreo = () => {
     setConsultando(true);
     try {
       await axios.post(
-        BACKEND+"/api/v1/forgot-password",
+        BACKEND + "/api/v1/forgot-password",
         { email },
         { headers: { accept: "application/json" } }
       );
@@ -83,6 +83,7 @@ export const ConfirmarCorreo = () => {
                   <div>
                     <button
                       type="submit"
+                      id="EnviarCorreo"
                       disabled={consultando}
                       className="bg-sky-700 hover:bg-sky-900 text-white font-medium py-1 px-3 rounded-[3px] mr-1"
                     >
