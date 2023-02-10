@@ -209,7 +209,7 @@ export const Dashboard = () => {
   const editarCarrera = async () => {
     setConsultando(true);
     try {
-      await axios.put(
+      await axios.post(
         BACKEND + "/api/v1/carreras/admin/" + carreraSelect.current,
         { nombre, descripcion, encargado },
         config
@@ -639,7 +639,7 @@ export const Dashboard = () => {
           placeholder="Buscar Materia "
           className="rounded-l-lg h-[35px] 
                     border-gray-300 
-                    focus:outline-none focus:ring-cyan-700 border"
+                    focus:outline-none focus:ring-cyan-700 border max-[360px]:w-[130px]"
         />
         <button
           type="submit"

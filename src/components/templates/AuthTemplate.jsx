@@ -12,10 +12,8 @@ export const AuthTemplate = () => {
       </div>
       <div>
         <div className="absolute flex w-full md:w-3/5  h-screen items-center justify-center py-16 left-0">
-          <main className="max-w-md w-full h-auto px-4">
-            <div className="">
-              <Outlet />
-            </div>
+          <main className="w-full h-auto px-4">
+            <Outlet />
           </main>
         </div>
       </div>

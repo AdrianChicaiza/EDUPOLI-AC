@@ -36,6 +36,7 @@ export const SemestrePage = () => {
   const [recargar, setRecargar] = useState(true);
   let hasErrorsMateria = false;
   let hasErrorsDocumento = false;
+  let hasErrorsComentario = false;
   const [errorNombreDoc, setErrorNombreDoc] = useState("");
   const [errorDocumento, setErrorDocumento] = useState("");
   const [documentos, setdocumentos] = useState("");
@@ -50,6 +51,8 @@ export const SemestrePage = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [errorNombreMateria, seterrorNombreMateria] = useState("");
   const [activeActualizarDoc, setActiveActualizarDoc] = useState(false);
+  const [errorComentario, seterrorComentario] = useState("");
+
   const [loadingboton, setLoadingboton] = useState(true);
   const Swal = require("sweetalert2");
   const errorAlert = () => {
@@ -231,7 +234,7 @@ export const SemestrePage = () => {
   const actualizarMateria = async () => {
     setConsultando(true);
     try {
-      await axios.put(
+      await axios.post(
         BACKEND + "/api/v1/materias/admin/" + materiaSelect.current,
         { nombre, descripcion, encargado },
         config
@@ -394,8 +397,10 @@ export const SemestrePage = () => {
   const editarComentario = async () => {
     setConsultando(true);
     try {
-      await axios.put(
-        BACKEND + "/api/v1/comentarios/sistema/" + comentSelect.current,
+      await axios.post(
+        BACKEND +
+          "/api/v1/comentarios/sistema/actualizar/" +
+          comentSelect.current,
         { comentario },
         config
       );
@@ -463,7 +468,6 @@ export const SemestrePage = () => {
       hasErrorsDocumento = true;
     }
     if (document.formularioDoc.inputDoc.value === "") {
-      console.log("No esta lleno el input file");
       setErrorDocumento("Debes escojer documento .pdf");
       hasErrorsDocumento = true;
     }
@@ -475,6 +479,16 @@ export const SemestrePage = () => {
     } else if (nombre_doc < 5) {
       setErrorNombreDoc("El nombre no puede tener menos de 5 caracteres");
       hasErrorsDocumento = true;
+    }
+  };
+
+  const validarComentario = () => {
+    if (comentario === null || comentario === "") {
+      seterrorComentario("Debe ingresar el campo comentario");
+      hasErrorsComentario = true;
+    } else if (comentario.length < 5) {
+      seterrorComentario("Debe ingresar mas de 5 caracteres");
+      hasErrorsComentario = true;
     }
   };
 
@@ -641,10 +655,8 @@ export const SemestrePage = () => {
                     return;
                   } else {
                     if (activeActualizarDoc) {
-                      console.log("Actualizo todo");
                       editarDocumentoAlert();
                     } else {
-                      console.log("Actualizo campossss");
                       editarDocumentoCampoAlert();
                     }
                   }
@@ -686,14 +698,23 @@ export const SemestrePage = () => {
               name="comentario"
               id="comentarioEdit"
               value={comentario}
-              onChange={(e) => setComentario(e.target.value)}
+              onChange={(e) => {
+                setComentario(e.target.value);
+                seterrorComentario("");
+              }}
             />
+            <p className="text-red-500 text-xs italic">{errorComentario}</p>
           </div>
         </ModalBody>
         <ModalFooter>
           <button
             onClick={() => {
-              editarComentarioAlert();
+              validarComentario(true);
+              if (hasErrorsComentario) {
+                return;
+              } else {
+                editarComentarioAlert();
+              }
             }}
             disabled={consultando}
             className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-1 px-3 rounded-[3px]"
@@ -706,6 +727,7 @@ export const SemestrePage = () => {
             onClick={() => {
               setComentario("");
               setEstadoModal4(false);
+              seterrorComentario("");
             }}
             disabled={consultando}
             className="bg-sky-900 hover:bg-sky-600 text-white font-bold py-1 px-3 rounded-[3px]"
@@ -808,7 +830,7 @@ export const SemestrePage = () => {
           placeholder="Buscar Materia "
           className="rounded-l-lg h-[35px] 
           border-gray-300 
-          focus:outline-none focus:ring-cyan-700 border"
+          focus:outline-none focus:ring-cyan-700 border max-[360px]:w-[130px]"
         />
         <button
           type="submit"

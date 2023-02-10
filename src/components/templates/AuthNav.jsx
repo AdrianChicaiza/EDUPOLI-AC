@@ -97,7 +97,7 @@ export const AuthNav = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        <main className="px-20 py-2">
+        <main className="px-20 py-2 max-[600px]:px-2">
           <Outlet />
         </main>
       </div>

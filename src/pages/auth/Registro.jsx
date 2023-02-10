@@ -24,7 +24,9 @@ export const Registro = () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: mensaje,
+      text: mensaje
+        ? mensaje
+        : "Hubo un error en el servidor intentalo otra vez",
     });
   };
   const errorPasswordAlert = () => {
@@ -61,6 +63,7 @@ export const Registro = () => {
       navigate("/");
     } catch (error) {
       errorAlert(error.response.data.errors.email);
+      console.log(error.response.data.errors, "errores");
     }
     setConsultando(false);
   };
@@ -147,7 +150,7 @@ export const Registro = () => {
 
   return (
     <>
-      <div className="flex justify-center py-1 bg-white ">
+      <div className="flex justify-center py-1 px-[150px] bg-white max-[1028px]:px-2 ">
         <div className="rounded-[5px] shadow-xl shadow-cyan-500/80 w-full bg-white py-2 ">
           <div className="flex items-center justify-center py-3 px-4">
             <div className="w-full ">
@@ -177,7 +180,7 @@ export const Registro = () => {
                         setErrorNombre("");
                       }}
                       placeholder="Nombre"
-                      tamaño={10}
+                      tamaño={30}
                     />
                     <p className="text-red-500 text-xs italic">{errorNombre}</p>
                   </div>
@@ -196,7 +199,7 @@ export const Registro = () => {
                         setErrorApellido("");
                       }}
                       placeholder="Apellido"
-                      tamaño={10}
+                      tamaño={30}
                     />
                     <p className="text-red-500 text-xs italic">
                       {errorApellido}
