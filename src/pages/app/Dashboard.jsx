@@ -474,8 +474,7 @@ export const Dashboard = () => {
                 setErrorEncargado("");
               }}
               placeholder="Encargado de la Carrera"
-              minLength={3}
-              tamaño={10}
+              tamaño={30}
             />
             <p className="text-red-500 text-xs italic">{errorEncargado}</p>
             <label htmlFor="descripcion" className="font-medium mt-2">
@@ -548,7 +547,6 @@ export const Dashboard = () => {
                 setNombre(e);
                 setErrorNombre("");
               }}
-              minLength={5}
               tamaño={50}
             />
             <p className="text-red-500 text-xs italic">{errorNombre}</p>
@@ -566,8 +564,7 @@ export const Dashboard = () => {
                 setEncargado(newText);
                 setErrorEncargado("");
               }}
-              minLength={5}
-              tamaño={10}
+              tamaño={30}
             />
             <p className="text-red-500 text-xs italic">{errorEncargado}</p>
             <label htmlFor="descripcion" className="font-medium mt-2">
