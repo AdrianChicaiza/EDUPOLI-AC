@@ -39,12 +39,12 @@ export const ConfirmarContra = () => {
     setEmail(window.location.href.split("email=")[1]);
   }, []);
 
-  const confirmPassword = async () => {
+  const confirmPassword = async (e) => {
+    e.preventDefault();
     try {
       await axios.post(
         BACKEND + "/api/v1/reset-password",
-        { token, email, password, password_confirmation },
-        { headers: { accept: "application/json" } }
+        { token, email, password, password_confirmation }
       );
       navigate("login");
       bienAlert();
